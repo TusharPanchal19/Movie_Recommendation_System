@@ -15,19 +15,18 @@ def download_if_missing():
     if not os.path.exists("movies_dict.pkl"):
         print("Downloading movies_dict.pkl...")
         gdown.download(
-            f"https://drive.google.com/uc?id={MOVIES_FILE_ID}",
-            "movies_dict.pkl",
-            quiet=False
-        )
-
+    f"https://drive.google.com/uc?export=download&id={MOVIES_FILE_ID}",
+    "movies_dict.pkl",
+    quiet=False
+)
     if not os.path.exists("similarity.pkl"):
         print("Downloading similarity.pkl...")
+        
         gdown.download(
-            f"https://drive.google.com/uc?id={SIMILARITY_FILE_ID}",
-            "similarity.pkl",
-            quiet=False
-        )
-
+    f"https://drive.google.com/uc?export=download&id={SIMILARITY_FILE_ID}",
+    "similarity.pkl",
+    quiet=False
+)
 download_if_missing()
 
 # Load environment variables
@@ -167,7 +166,7 @@ def get_movie_details():
         url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US"
         try:
             req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req, timeout=3) as response:
+            with urllib.request.urlopen(req, timeout=10) as response:
                 data = json.loads(response.read().decode('utf-8'))
                 
             return jsonify({
@@ -213,7 +212,7 @@ def get_movie_details():
         query_encoded = urllib.parse.quote(movie_title)
         url_imdbot = f"https://imdb.iamidiotareyoutoo.com/search?q={query_encoded}"
         req_imdbot = urllib.request.Request(url_imdbot, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req_imdbot, timeout=4) as response:
+        with urllib.request.urlopen(req_imdbot, timeout=10) as response:
             res_data = json.loads(response.read().decode('utf-8'))
             
         if res_data.get('ok') and res_data.get('description'):
@@ -248,7 +247,7 @@ def get_movie_details():
         search_encoded = urllib.parse.quote(search_query)
         url_search = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={search_encoded}&format=json&utf8=1"
         req_search = urllib.request.Request(url_search, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req_search, timeout=3) as search_res:
+        with urllib.request.urlopen(req_search, timeout=10) as search_res:
             search_data = json.loads(search_res.read().decode('utf-8'))
             
         if search_data.get('query', {}).get('search'):
@@ -257,7 +256,7 @@ def get_movie_details():
             title_encoded = urllib.parse.quote(wiki_title)
             url_sum = f"https://en.wikipedia.org/api/rest_v1/page/summary/{title_encoded}"
             req_sum = urllib.request.Request(url_sum, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req_sum, timeout=3) as sum_res:
+            with urllib.request.urlopen(req_sum, timeout=10) as sum_res:
                 sum_data = json.loads(sum_res.read().decode('utf-8'))
                 overview = sum_data.get('extract', '')
                 
@@ -332,4 +331,5 @@ if __name__ == '__main__':
     print(f"Backend Server Starting on http://127.0.0.1:5000")
     print(f"Backend TMDB Key Status: {'CONFIGURED' if TMDB_API_KEY else 'NOT CONFIGURED'}")
     print("--------------------------------------------------")
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
