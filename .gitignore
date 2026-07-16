@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pkl
+*.pickle
+*.joblib
+.env
+venv/
+.idea/
+.vscode/
+.DS_Store
+similarity.pkl
+*.pyc
+__pycache__/
+venv/
+.env

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatch AI - Movie Recommender System</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Background Glow Blobs -->
+    <div class="glow-blob glow-1"></div>
+    <div class="glow-blob glow-2"></div>
+    <div class="glow-blob glow-3"></div>
+
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <header class="app-header">
+            <div class="logo">
+                <i class="fa-solid fa-clapperboard logo-icon"></i>
+                <span class="logo-text">CineMatch<span class="logo-highlight">.AI</span></span>
+            </div>
+        </header>
+
+        <!-- Main Hero Section -->
+        <main class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Find Your Next <span class="highlight-text">Cinematic Journey</span></h1>
+                <p class="hero-subtitle">Powered by Cosine Similarity NLP modeling. Type a movie you love, and we'll recommend similar masterworks.</p>
+                
+                <!-- Search Box Wrapper -->
+                <div class="search-wrapper">
+                    <div class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="movieSearch" placeholder="Type a movie title (e.g. Avatar, Dark Knight, Titanic...)" autocomplete="off">
+                        <button id="recommendBtn" class="btn-primary">
+                            <span>Recommend</span>
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                        </button>
+                    </div>
+                    <!-- Autocomplete Dropdown -->
+                    <div id="autocompleteDropdown" class="autocomplete-dropdown hidden"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-container hidden">
+            <div class="spinner-wrapper">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+            <p id="loadingMessage" class="loading-message">Analyzing tags & keywords...</p>
+        </div>
+
+        <!-- Recommendations Section -->
+        <section id="recommendationsSection" class="recommendations-section hidden">
+            <h2 class="section-title">
+                <i class="fa-solid fa-film"></i>
+                <span id="recommendationsTitle">Recommendations because you watched Titanic</span>
+            </h2>
+            <div id="recommendationsGrid" class="recommendations-grid">
+                <!-- Movie cards will be dynamically injected here -->
+            </div>
+        </section>
+    </div>
+
+
+    <!-- Movie Details Modal -->
+    <div id="detailsModal" class="modal hidden">
+        <div class="details-modal-content glassmorphism">
+            <button id="closeDetailsModal" class="close-btn-floating"><i class="fa-solid fa-xmark"></i></button>
+            
+            <!-- Backdrop Image Header -->
+            <div class="modal-backdrop-img" id="modalBackdrop">
+                <div class="backdrop-gradient"></div>
+            </div>
+            
+            <div class="details-body">
+                <!-- Poster Column -->
+                <div class="details-poster-container">
+                    <img id="modalPoster" src="" alt="Movie Poster" class="modal-poster">
+                </div>
+                
+                <!-- Info Column -->
+                <div class="details-info">
+                    <h2 class="details-title" id="modalTitle">Inception</h2>
+                    
+                    <div class="details-meta">
+                        <span class="meta-item rating-meta">
+                            <i class="fa-solid fa-star"></i>
+                            <span id="modalRating">8.3</span>
+                        </span>
+                        <span class="meta-item" id="modalYear">2010</span>
+                        <span class="meta-item" id="modalRuntime">148 min</span>
+                        <span class="meta-item match-meta">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span id="modalMatchScore">92% Match</span>
+                        </span>
+                    </div>
+                    
+                    <div class="details-genres" id="modalGenres">
+                        <!-- Genre badges go here -->
+                    </div>
+                    
+                    <div class="details-synopsis">
+                        <h3>Synopsis</h3>
+                        <p id="modalOverview">A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
