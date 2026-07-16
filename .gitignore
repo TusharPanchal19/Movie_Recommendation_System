@@ -8,6 +8,7 @@ venv/
 .idea/
 .vscode/
 .DS_Store
+movies_dict.pkl
 similarity.pkl
 *.pyc
 __pycache__/

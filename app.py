@@ -5,6 +5,30 @@ import urllib.parse
 import json
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
+import os
+import gdown
+
+MOVIES_FILE_ID = "1IEcU-db2vDOyCwTdo0XfXeZYokXdJFDv"
+SIMILARITY_FILE_ID = "1ykeCDyVD2xZx6nS8HwSiR8RWnjqw5PmB"
+
+def download_if_missing():
+    if not os.path.exists("movies_dict.pkl"):
+        print("Downloading movies_dict.pkl...")
+        gdown.download(
+            f"https://drive.google.com/uc?id={MOVIES_FILE_ID}",
+            "movies_dict.pkl",
+            quiet=False
+        )
+
+    if not os.path.exists("similarity.pkl"):
+        print("Downloading similarity.pkl...")
+        gdown.download(
+            f"https://drive.google.com/uc?id={SIMILARITY_FILE_ID}",
+            "similarity.pkl",
+            quiet=False
+        )
+
+download_if_missing()
 
 # Load environment variables
 load_dotenv()
