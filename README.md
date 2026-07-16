@@ -87,7 +87,8 @@ git clone https://github.com/TusharPanchal19/Movie-Recommendation-System.git
 Move into the project
 
 ```bash
-cd Movie-Recommendation-System
+cd Movie-
+_Recommendation_System
 ```
 
 Install dependencies
